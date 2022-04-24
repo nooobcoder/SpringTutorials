@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,7 +17,7 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
 
-    private Set<Recipe> recipe;
+    private Set<Recipe> recipe = new HashSet<>();
 
     public Long getId() {
         return id;

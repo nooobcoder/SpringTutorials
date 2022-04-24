@@ -1,6 +1,7 @@
 package com.recipefinder.recipefinder.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -9,8 +10,11 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String description, source, url, directions;
-    private Integer prepItem, cookTime, servings;
+    private String description, source, url;
+
+    @Lob
+    private String directions;
+    private Integer prepTime, cookTime, servings;
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
@@ -22,7 +26,7 @@ public class Recipe {
     private Notes notes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -30,7 +34,7 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
     public Difficulty getDifficulty() {
         return difficulty;
@@ -93,11 +97,11 @@ public class Recipe {
     }
 
     public Integer getPrepItem() {
-        return prepItem;
+        return prepTime;
     }
 
-    public void setPrepItem(Integer prepItem) {
-        this.prepItem = prepItem;
+    public void setPrepTime(Integer prepTime) {
+        this.prepTime = prepTime;
     }
 
     public Integer getCookTime() {
@@ -130,5 +134,10 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        ingredient.setRecipe(this);
+        this.ingredients.add(ingredient);
     }
 }
