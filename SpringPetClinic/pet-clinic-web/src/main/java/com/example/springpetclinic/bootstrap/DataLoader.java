@@ -63,6 +63,9 @@ public class DataLoader implements CommandLineRunner {
         owner.setCity("Miami");
         owner.setTelephone("1267351435");
 
+//        Builder Pattern of Project Lombok
+//        Owner.builder().address("123 Brickerel").build();
+
         Pet mikesPet = new Pet();
         mikesPet.setPetType(savedDogPetType);
         mikesPet.setOwner(owner);
