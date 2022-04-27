@@ -96,7 +96,9 @@ class OwnerSDJpaServiceTest {
     }
 
     @Test
-    void findByLastName() {
+    void find
+
+    is bByLastName() {
         Owner returnOwner = Owner.builder().id(1L).lastName(LAST_NAME).build();
         Mockito.when(ownerRepository.findByLastName(any())).thenReturn(returnOwner);
         Owner smith = service.findByLastName(LAST_NAME);
