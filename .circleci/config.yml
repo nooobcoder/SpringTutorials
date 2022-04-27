@@ -44,12 +44,18 @@ jobs:
           path: ~/project
       # Use mvn clean and package as the standard maven build phase
       - run:
-          name: Build
-          command: mvn -B -DskipTests clean package
-      # Then run your tests!
-      - run:
-          name: Test
-          command: mvn test
+          name: Install
+          command: mvn install -DskipTests
+
+      - run: mvn dependency:go-offline
+      
+      - save_cache:
+              paths:
+              - ~/.m2
+              key: v1-dependencies-{{ checksum "pom.xml" }}
+
+        # run tests!
+        - run: mvn integration-test
 
 workflows:
   mvntest: # This is the name of the workflow, feel free to change it to better match your workflow.
