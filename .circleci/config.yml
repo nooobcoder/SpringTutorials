@@ -42,20 +42,29 @@ jobs:
       # Checkout the code as the first step.
       - checkout:
           path: ~/project
+
+      # Download and cache dependencies
+      - restore_cache:
+            keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+
       # Use mvn clean and package as the standard maven build phase
       - run:
           name: Install
           command: mvn install -DskipTests
 
       - run: mvn dependency:go-offline
-      
+
       - save_cache:
               paths:
               - ~/.m2
               key: v1-dependencies-{{ checksum "pom.xml" }}
 
-        # run tests!
-        - run: mvn integration-test
+      # run tests!
+      - run: mvn integration-test
 
 workflows:
   mvntest: # This is the name of the workflow, feel free to change it to better match your workflow.
