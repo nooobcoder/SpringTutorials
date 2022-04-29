@@ -24,6 +24,7 @@ public class Recipe {
     @Lob
     private Byte[] image;
 
+
     // About cascading relationships -> https://baeldung.com/jpa-cascade-types
     @OneToOne(cascade = CascadeType.ALL) // cascade sets the owner/initiator of the relationship
     private Notes notes;
