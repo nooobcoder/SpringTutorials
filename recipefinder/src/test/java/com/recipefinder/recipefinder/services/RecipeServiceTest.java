@@ -1,5 +1,7 @@
 package com.recipefinder.recipefinder.services;
 
+import com.recipefinder.recipefinder.converters.RecipeCommandToRecipe;
+import com.recipefinder.recipefinder.converters.RecipeToRecipeCommand;
 import com.recipefinder.recipefinder.model.Recipe;
 import com.recipefinder.recipefinder.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,10 +23,16 @@ class RecipeServiceTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeService(recipeRepository);
+        recipeService = new RecipeService(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
