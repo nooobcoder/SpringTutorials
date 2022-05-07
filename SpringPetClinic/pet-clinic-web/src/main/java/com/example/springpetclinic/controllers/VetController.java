@@ -3,7 +3,7 @@ package com.example.springpetclinic.controllers;
 import com.example.springpetclinic.services.VetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class VetController {
@@ -14,10 +14,10 @@ public class VetController {
         this.vetService = vetService;
     }
 
-    @RequestMapping({"/vets/index", "/vets/index.html", "/vets.html"})
+    @GetMapping({"/vets/index", "/vets/index.html", "/vets.html", "/vets"})
     public String listVets(Model model) {
         model.addAttribute("vets", vetService.findAll());
 
-        return "vets/index.html";
+        return "vets/index";
     }
 }

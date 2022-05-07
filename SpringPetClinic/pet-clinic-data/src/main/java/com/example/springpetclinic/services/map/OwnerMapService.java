@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Profile({"default", "map"})
@@ -38,10 +39,10 @@ public class OwnerMapService extends AbstractMapService<Owner, Long> implements 
     }
 
     @Override
-    public List<Owner> findAllByLastNameLike(String lastName) {
-
-        //todo - impl
-        return null;
+    public List<Owner> findAllByLastNameLike(String lastNameLike) {
+        return map.values().stream()
+            .filter(owner -> owner.getLastName().toLowerCase().contains(lastNameLike.toLowerCase()))
+            .collect(Collectors.toList());
     }
 
     @Override
