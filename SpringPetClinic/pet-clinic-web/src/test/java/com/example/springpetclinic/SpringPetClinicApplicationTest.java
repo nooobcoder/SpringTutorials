@@ -14,7 +14,6 @@ class SpringPetClinicApplicationTest {
     void setUp() {
     }
 
-
     @Test
     void contextLoads() {
     }
