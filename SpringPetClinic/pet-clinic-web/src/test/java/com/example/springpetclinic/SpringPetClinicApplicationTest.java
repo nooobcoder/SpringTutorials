@@ -10,11 +10,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 class SpringPetClinicApplicationTest {
 
-    @BeforeEach
-    void setUp() {
-    }
+	@BeforeEach
+	void setUp() {
+	}
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
+
 }
