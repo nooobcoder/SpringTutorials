@@ -2,6 +2,7 @@ package guru.springframework.controllers;
 
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,9 +48,25 @@ public class RecipeControllerTest {
         when(recipeService.findById(anyLong())).thenReturn(recipe);
 
         mockMvc.perform(get("/recipe/1/show"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipe/show"))
-                .andExpect(model().attributeExists("recipe"));
+            .andExpect(status().isOk())
+            .andExpect(view().name("recipe/show"))
+            .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/3/show"))
+            .andExpect(status().isNotFound())
+            .andExpect(view().name("404error"));
+    }
+
+    @Test
+    public void testNumberFormatException() throws Exception {
+        mockMvc.perform(get("/recipe/dsas/show"))
+            .andExpect(status().isBadRequest())
+            .andExpect(view().name("400error"));
     }
 
     @Test
@@ -57,9 +74,9 @@ public class RecipeControllerTest {
         RecipeCommand command = new RecipeCommand();
 
         mockMvc.perform(get("/recipe/new"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipe/recipeform"))
-                .andExpect(model().attributeExists("recipe"));
+            .andExpect(status().isOk())
+            .andExpect(view().name("recipe/recipeform"))
+            .andExpect(model().attributeExists("recipe"));
     }
 
     @Test
@@ -73,9 +90,9 @@ public class RecipeControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "")
                 .param("description", "some string")
-        )
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/recipe/2/show"));
+            )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/recipe/2/show"));
     }
 
     @Test
@@ -86,16 +103,16 @@ public class RecipeControllerTest {
         when(recipeService.findCommandById(anyLong())).thenReturn(command);
 
         mockMvc.perform(get("/recipe/1/update"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipe/recipeform"))
-                .andExpect(model().attributeExists("recipe"));
+            .andExpect(status().isOk())
+            .andExpect(view().name("recipe/recipeform"))
+            .andExpect(model().attributeExists("recipe"));
     }
 
     @Test
     public void testDeleteAction() throws Exception {
         mockMvc.perform(get("/recipe/1/delete"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/"));
 
         verify(recipeService, times(1)).deleteById(anyLong());
     }
