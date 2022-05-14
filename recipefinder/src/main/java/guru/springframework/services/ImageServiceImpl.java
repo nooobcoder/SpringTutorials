@@ -7,37 +7,43 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
+import java.io.IOException;
 
+/**
+ * Created by jt on 7/3/17.
+ */
 @Slf4j
 @Service
 public class ImageServiceImpl implements ImageService {
+
+
     private final RecipeRepository recipeRepository;
 
-    public ImageServiceImpl(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
+    public ImageServiceImpl( RecipeRepository recipeService) {
+
+        this.recipeRepository = recipeService;
     }
 
     @Override
     @Transactional
     public void saveImageFile(Long recipeId, MultipartFile file) {
+
         try {
-            Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
-            if (recipeOptional.isPresent()) {
-                Recipe recipe = recipeOptional.get();
+            Recipe recipe = recipeRepository.findById(recipeId).get();
 
-                Byte[] byteObjects = new Byte[file.getBytes().length];
-                int i = 0;
+            Byte[] byteObjects = new Byte[file.getBytes().length];
 
-                for (byte b : file.getBytes()) {
-                    byteObjects[i++] = b;
-                }
+            int i = 0;
 
-                recipe.setImage(byteObjects);
-                recipeRepository.save(recipe);
+            for (byte b : file.getBytes()){
+                byteObjects[i++] = b;
             }
-        } catch (Exception e) {
-            // TODO: Handle error better
+
+            recipe.setImage(byteObjects);
+
+            recipeRepository.save(recipe);
+        } catch (IOException e) {
+            //todo handle better
             log.error("Error occurred", e);
 
             e.printStackTrace();

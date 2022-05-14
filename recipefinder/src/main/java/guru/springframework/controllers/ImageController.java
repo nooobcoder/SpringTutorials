@@ -17,8 +17,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Created by jt on 7/3/17.
+ */
 @Controller
 public class ImageController {
+
     private final ImageService imageService;
     private final RecipeService recipeService;
 
@@ -28,15 +32,15 @@ public class ImageController {
     }
 
     @GetMapping("recipe/{id}/image")
-    public String showUploadForm(@PathVariable String id, Model model) {
+    public String showUploadForm(@PathVariable String id, Model model){
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(id)));
 
         return "recipe/imageuploadform";
     }
 
-
     @PostMapping("recipe/{id}/image")
-    public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file) {
+    public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file){
+
         imageService.saveImageFile(Long.valueOf(id), file);
 
         return "redirect:/recipe/" + id + "/show";
@@ -50,8 +54,8 @@ public class ImageController {
             byte[] byteArray = new byte[recipeCommand.getImage().length];
             int i = 0;
 
-            for (Byte wrappedByte : recipeCommand.getImage()) {
-                byteArray[i++] = wrappedByte; // Auto unboxing
+            for (Byte wrappedByte : recipeCommand.getImage()){
+                byteArray[i++] = wrappedByte; //auto unboxing
             }
 
             response.setContentType("image/jpeg");
