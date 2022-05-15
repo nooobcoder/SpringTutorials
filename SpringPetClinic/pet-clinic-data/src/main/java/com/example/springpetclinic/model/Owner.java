@@ -18,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "owners")
+@SuppressWarnings("JpaDataSourceORMInspection")
 public class Owner extends Person {
 
     @Builder

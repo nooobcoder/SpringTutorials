@@ -15,7 +15,7 @@ spring:
 logging:
     level:
         com.recipefinder: debug
-    # Validation Messages
+    # Validation Messages (https://www.baeldung.com/spring-custom-validation-message-source)
     # Order of precedence
     # 1. code.objectname.fieldname
     # 2. code.fieldname
@@ -23,10 +23,13 @@ logging:
     # 4. code
 NotBlank:
     recipe:
-        description: Description cannot be blank
+        description: "Description cannot be blank"
 Size:
     recipe:
         description: "{0} must be between {2} and {1} characters long."
 Max:
     recipe:
         description: "{0} must be less than {1}"
+URL:
+    recipe:
+        url: "Please provide a valid URL"

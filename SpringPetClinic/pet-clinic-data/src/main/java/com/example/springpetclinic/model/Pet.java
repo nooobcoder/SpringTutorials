@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,26 +18,29 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "pets")
+@SuppressWarnings("JpaDataSourceORMInspection")
 public class Pet extends BaseEntity {
+
+    @Column(name = "birth_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
 
     @Column(name = "name")
     private String name;
+
     @ManyToOne
     @JoinColumn(name = "type_id")
     private PetType petType;
+
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Owner owner;
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
-    private Set<Visit> visits = new HashSet<>();
 
     @Builder
     public Pet(Long id, String name, PetType petType, Owner owner, LocalDate birthDate, Set<Visit> visits) {
@@ -50,4 +54,8 @@ public class Pet extends BaseEntity {
             this.visits = visits;
         }
     }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
+    private Set<Visit> visits = new HashSet<>();
+
 }

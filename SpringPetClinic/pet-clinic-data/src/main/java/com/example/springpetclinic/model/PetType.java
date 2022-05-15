@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity
 @Table(name = "types")
+@SuppressWarnings("JpaDataSourceORMInspection")
 public class PetType extends BaseEntity {
 
     @Builder

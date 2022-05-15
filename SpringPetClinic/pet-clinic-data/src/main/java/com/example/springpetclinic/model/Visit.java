@@ -13,19 +13,35 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
-@Table(name = "visit")
+@Table(name = "visits")
+@SuppressWarnings("JpaDataSourceORMInspection")
 public class Visit extends BaseEntity {
+
+    @Builder
+    public Visit(Long id, LocalDate date, String description, Pet pet) {
+        super(id);
+        this.date = date;
+        this.description = description;
+        this.pet = pet;
+    }
+
     @Column(name = "date")
     private LocalDate date;
+
     @Column(name = "description")
     private String description;
+
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;
+
+    public LocalDate getDate() {
+        return date;
+    }
+
 }

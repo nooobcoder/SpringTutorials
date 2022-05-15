@@ -15,19 +15,28 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "vets")
+@SuppressWarnings("JpaDataSourceORMInspection")
 public class Vet extends Person {
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "vet_specialties",
-        joinColumns = @JoinColumn(name = "vet_id"),
-        inverseJoinColumns = @JoinColumn(name = "specialty_id ")
-    )
+    @JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
+        inverseJoinColumns = @JoinColumn(name = "speciality_id"))
     private Set<Specialty> specialties = new HashSet<>();
+
+    @Builder
+    public Vet(final Long id,
+               final String firstName,
+               final String lastName,
+               final Set<Specialty> specialties) {
+        super(id, firstName, lastName);
+
+        if (specialties != null) {
+            this.specialties = specialties;
+        }
+    }
 }

@@ -4,15 +4,11 @@ import com.example.springpetclinic.model.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class OwnerMapServiceTest {
-    private static final Long OWNER_ID_1 = 1L;
-    private static final String OWNER_LAST_NAME_1 = "Smith";
-    private static final Long OWNER_ID_2 = 2L;
-    private static final String OWNER_LAST_NAME_2 = "Smooth";
+public class OwnerMapServiceTest {
+    private static final Long OWNER_ID = 1L;
+    private static final String LAST_NAME = "Smith";
 
     private OwnerMapService ownerMapService;
 
@@ -20,116 +16,154 @@ class OwnerMapServiceTest {
     void setUp() {
         ownerMapService = new OwnerMapService(new PetTypeMapService(), new PetMapService());
 
-        ownerMapService.save(Owner.builder().id(OWNER_ID_1).lastName(OWNER_LAST_NAME_1).build());
+        ownerMapService.save(Owner.builder().id(OWNER_ID).lastName(LAST_NAME).build());
     }
 
     @Test
     void findAll() {
-        Set<Owner> ownerSet = ownerMapService.findAll();
+        final var ownerSet = ownerMapService.findAll();
 
         assertEquals(1, ownerSet.size());
     }
 
     @Test
-    void findById() {
-        Owner owner = ownerMapService.findById(OWNER_ID_1);
+    void findByExistingId() {
+        final var owner = ownerMapService.findById(OWNER_ID);
 
-        assertEquals(OWNER_ID_1, owner.getId());
+        assertEquals(OWNER_ID, owner.getId());
+    }
+
+    @Test
+    void findByIdNotExistingId() {
+
+        final var owner = ownerMapService.findById(5L);
+
+        assertNull(owner);
+    }
+
+    @Test
+    void findByIdNullId() {
+
+        final var owner = ownerMapService.findById(null);
+
+        assertNull(owner);
     }
 
     @Test
     void saveExistingId() {
-        Owner owner2 = Owner.builder().id(OWNER_ID_2).build();
+        final Long id = 2L;
 
-        Owner savedOwner = ownerMapService.save(owner2);
+        final var owner2 = Owner.builder().id(id).build();
 
-        assertEquals(OWNER_ID_2, savedOwner.getId());
+        final var savedOwner = ownerMapService.save(owner2);
 
+        assertEquals(id, savedOwner.getId());
+    }
+
+    @Test
+    void saveDuplicateId() {
+
+        final Long id = 1L;
+
+        final var owner2 = Owner.builder().id(id).build();
+
+        final var savedOwner = ownerMapService.save(owner2);
+
+        assertEquals(id, savedOwner.getId());
+        assertEquals(1, ownerMapService.findAll().size());
     }
 
     @Test
     void saveNoId() {
 
-        Owner savedOwner = ownerMapService.save(Owner.builder().build());
+        final var savedOwner = ownerMapService.save(Owner.builder().build());
 
         assertNotNull(savedOwner);
         assertNotNull(savedOwner.getId());
     }
 
     @Test
-    void delete() {
-        ownerMapService.delete(ownerMapService.findById(OWNER_ID_1));
+    void deleteOwner() {
+        ownerMapService.delete(ownerMapService.findById(OWNER_ID));
 
         assertEquals(0, ownerMapService.findAll().size());
     }
 
     @Test
-    void deleteById() {
-        ownerMapService.deleteById(OWNER_ID_1);
+    void deleteWithWrongId() {
+
+        final var owner = Owner.builder().id(5L).build();
+
+        ownerMapService.delete(owner);
+
+        assertEquals(1, ownerMapService.findAll().size());
+    }
+
+    @Test
+    void deleteWithNullId() {
+
+        final var owner = Owner.builder().build();
+
+        ownerMapService.delete(owner);
+
+        assertEquals(1, ownerMapService.findAll().size());
+    }
+
+    @Test
+    void deleteNull() {
+
+        ownerMapService.delete(null);
+
+        assertEquals(1, ownerMapService.findAll().size());
+    }
+
+    @Test
+    void deleteByIdCorrectId() {
+        ownerMapService.deleteById(OWNER_ID);
 
         assertEquals(0, ownerMapService.findAll().size());
+    }
+
+    @Test
+    void deleteByIdWrongId() {
+
+        ownerMapService.deleteById(5L);
+
+        assertEquals(1, ownerMapService.findAll().size());
+    }
+
+    @Test
+    void deleteByIdNullId() {
+
+        ownerMapService.deleteById(null);
+
+        assertEquals(1, ownerMapService.findAll().size());
     }
 
     @Test
     void findByLastName() {
-        Owner smith = ownerMapService.findByLastName(OWNER_LAST_NAME_1);
+        final var smith = ownerMapService.findByLastName(LAST_NAME);
 
         assertNotNull(smith);
 
-        assertEquals(OWNER_ID_1, smith.getId());
+        assertEquals(OWNER_ID, smith.getId());
+        assertEquals(LAST_NAME, smith.getLastName());
+    }
 
+    @Test
+    void findByLastNameLowerCase() {
+        final var smith = ownerMapService.findByLastName(LAST_NAME.toLowerCase());
+
+        assertNotNull(smith);
+
+        assertEquals(OWNER_ID, smith.getId());
+        assertEquals(LAST_NAME, smith.getLastName());
     }
 
     @Test
     void findByLastNameNotFound() {
-        Owner smith = ownerMapService.findByLastName("foo");
+        final var smith = ownerMapService.findByLastName("foo");
 
         assertNull(smith);
-    }
-
-
-    @Test
-    void findByLastNameLikeInMiddleName() {
-        final var owners = ownerMapService.findAllByLastNameLike("th");
-
-        assertNotNull(owners);
-        assertEquals(1, owners.size());
-        final var owner = owners.iterator().next();
-        assertEquals(OWNER_ID_1, owner.getId());
-        assertEquals(OWNER_LAST_NAME_1, owner.getLastName());
-    }
-
-    @Test
-    void findByLastNameLikeCaseInsensitive() {
-        final var owners = ownerMapService.findAllByLastNameLike("smi");
-
-        assertNotNull(owners);
-        assertEquals(1, owners.size());
-        final var owner = owners.iterator().next();
-        assertEquals(OWNER_ID_1, owner.getId());
-        assertEquals(OWNER_LAST_NAME_1, owner.getLastName());
-    }
-
-    @Test
-    void findByLastNameLikeReturnsOne() {
-        ownerMapService.save(Owner.builder().id(OWNER_ID_2).lastName("smooth").build());
-
-        final var owners = ownerMapService.findAllByLastNameLike("Smi");
-
-        assertNotNull(owners);
-        assertEquals(1, owners.size());
-        final var owner = owners.iterator().next();
-        assertEquals(OWNER_ID_1, owner.getId());
-        assertEquals(OWNER_LAST_NAME_1, owner.getLastName());
-    }
-
-    @Test
-    void findByLastNameLikeReturnsMany() {
-        ownerMapService.save(Owner.builder().id(OWNER_ID_2).lastName(OWNER_LAST_NAME_2).build());
-
-        final var owners = ownerMapService.findAllByLastNameLike("Sm");
-
-        assertNotNull(owners);
-        assertEquals(2, owners.size());
     }
 }
