@@ -42,12 +42,8 @@ class VetControllerTest {
 
         when(vetService.findAll()).thenReturn(Set.of(vet1, vet2));
 
-        mockMvc.perform(get("/vets/index"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("vets/index"))
-            .andExpect(model().attributeExists("vets"))
-            .andExpect(model().
-                attribute("vets", hasSize(2)));
+        mockMvc.perform(get("/vets/index")).andExpect(status().isOk()).andExpect(view().name("vets/index"))
+            .andExpect(model().attributeExists("vets")).andExpect(model().attribute("vets", hasSize(2)));
     }
 
     @Test
@@ -64,9 +60,8 @@ class VetControllerTest {
 
         when(vetService.findAll()).thenReturn(Set.of(vet1, vet2));
 
-        mockMvc.perform(get("/api/vets"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$", hasSize(2)));
+        mockMvc.perform(get("/api/vets")).andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(2)));
     }
+
 }

@@ -29,4 +29,5 @@ public class VetController {
     public @ResponseBody Set<Vet> getVetsJson() {
         return vetService.findAll();
     }
+
 }

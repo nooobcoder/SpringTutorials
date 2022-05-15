@@ -16,26 +16,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 class IndexControllerTest {
-    @Mock
-    Model model;
 
-    @InjectMocks
-    IndexController controller;
+	@Mock
+	Model model;
 
-    @Test
-    void testMockMVC() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+	@InjectMocks
+	IndexController controller;
 
-        mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index"));
-    }
+	@Test
+	void testMockMVC() throws Exception {
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
-    @Test
-    void testIndex() {
-        assertEquals("index", controller.index());
-    }
+		mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index"));
+	}
 
-    @Test
-    void testOupsHandler() {
-        assertEquals("notimplemented", controller.oupsHandler());
-    }
+	@Test
+	void testIndex() {
+		assertEquals("index", controller.index());
+	}
+
+	@Test
+	void testOupsHandler() {
+		assertEquals("notimplemented", controller.oupsHandler());
+	}
+
 }
