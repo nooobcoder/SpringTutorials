@@ -1,17 +1,32 @@
 server:
-  port: 280
+    port: 280
 spring:
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:mem:mydb
-    username: sa
-    password: password
-    driverClassName: org.h2.Driver
-  jpa:
-    defer-datasource-initialization: true
-    database-platform: org.hibernate.dialect.H2Dialect
+    h2:
+        console:
+            enabled: true
+    datasource:
+        url: jdbc:h2:mem:mydb
+        username: sa
+        password: password
+        driverClassName: org.h2.Driver
+    jpa:
+        defer-datasource-initialization: true
+        database-platform: org.hibernate.dialect.H2Dialect
 logging:
-  level:
-    com.recipefinder: debug
+    level:
+        com.recipefinder: debug
+    # Validation Messages
+    # Order of precedence
+    # 1. code.objectname.fieldname
+    # 2. code.fieldname
+    # 3. code.fieldtype (Java Data Type)
+    # 4. code
+NotBlank:
+    recipe:
+        description: Description cannot be blank
+Size:
+    recipe:
+        description: "{0} must be between {2} and {1} characters long."
+Max:
+    recipe:
+        description: "{0} must be less than {1}"
