@@ -1,0 +1,3 @@
+[submodule "spring-boot-mongodb"]
+	path = spring-boot-mongodb
+	url = https://github.com/springframeworkguru/spring-boot-mongodb.git
