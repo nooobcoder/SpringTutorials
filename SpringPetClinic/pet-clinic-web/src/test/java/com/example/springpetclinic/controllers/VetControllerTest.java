@@ -22,46 +22,46 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = VetController.class)
 class VetControllerTest {
 
-    @MockBean
-    VetService vetService;
+	@MockBean
+	VetService vetService;
 
-    @Autowired
-    MockMvc mockMvc;
+	@Autowired
+	MockMvc mockMvc;
 
-    @Test
-    void listVets() throws Exception {
-        Vet vet1 = new Vet();
-        vet1.setId(1L);
-        vet1.setFirstName("John");
-        vet1.setLastName("Doe");
+	@Test
+	void listVets() throws Exception {
+		Vet vet1 = new Vet();
+		vet1.setId(1L);
+		vet1.setFirstName("John");
+		vet1.setLastName("Doe");
 
-        Vet vet2 = new Vet();
-        vet2.setId(2L);
-        vet2.setFirstName("Jane");
-        vet2.setLastName("Doe");
+		Vet vet2 = new Vet();
+		vet2.setId(2L);
+		vet2.setFirstName("Jane");
+		vet2.setLastName("Doe");
 
-        when(vetService.findAll()).thenReturn(Set.of(vet1, vet2));
+		when(vetService.findAll()).thenReturn(Set.of(vet1, vet2));
 
-        mockMvc.perform(get("/vets/index")).andExpect(status().isOk()).andExpect(view().name("vets/index"))
-            .andExpect(model().attributeExists("vets")).andExpect(model().attribute("vets", hasSize(2)));
-    }
+		mockMvc.perform(get("/vets/index")).andExpect(status().isOk()).andExpect(view().name("vets/index"))
+				.andExpect(model().attributeExists("vets")).andExpect(model().attribute("vets", hasSize(2)));
+	}
 
-    @Test
-    void getVetsJson() throws Exception {
-        Vet vet1 = new Vet();
-        vet1.setId(1L);
-        vet1.setFirstName("John");
-        vet1.setLastName("Doe");
+	@Test
+	void getVetsJson() throws Exception {
+		Vet vet1 = new Vet();
+		vet1.setId(1L);
+		vet1.setFirstName("John");
+		vet1.setLastName("Doe");
 
-        Vet vet2 = new Vet();
-        vet2.setId(2L);
-        vet2.setFirstName("Jane");
-        vet2.setLastName("Doe");
+		Vet vet2 = new Vet();
+		vet2.setId(2L);
+		vet2.setFirstName("Jane");
+		vet2.setLastName("Doe");
 
-        when(vetService.findAll()).thenReturn(Set.of(vet1, vet2));
+		when(vetService.findAll()).thenReturn(Set.of(vet1, vet2));
 
-        mockMvc.perform(get("/api/vets")).andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(2)));
-    }
+		mockMvc.perform(get("/api/vets")).andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$", hasSize(2)));
+	}
 
 }
