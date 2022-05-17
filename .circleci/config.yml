@@ -64,7 +64,47 @@ jobs:
               key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # run tests!
-      - run: mvn integration-test
+      - run: mvn integration-test 
+  build-and-test-rest:
+    working_directory: ~/project/spring5-mvc-rest
+    docker:
+      - image: cimg/openjdk:11.0
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+    steps:
+      - checkout:
+          path: ~/project
+
+      # Download and cache dependencies
+      - restore_cache:
+            keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+
+      # Use mvn clean and package as the standard maven build phase
+      - run:
+          name: Install
+          command: mvn install -DskipTests
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+              paths:
+              - ~/.m2
+              key: v1-dependencies-{{ checksum "pom.xml" }}
+
+      # run tests!
+      - run: mvn integration-test cobertura:cobertura
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - run:
+          name: Send to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)
 
 workflows:
   mvntest: # This is the name of the workflow, feel free to change it to better match your workflow.
@@ -74,3 +114,6 @@ workflows:
   testspringpetclinic:
     jobs:
       - build-and-test-spc
+  testrestmvc:
+    jobs:
+      - build-and-test-rest

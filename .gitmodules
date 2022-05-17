@@ -1,3 +1,6 @@
 [submodule "spring-boot-mongodb"]
 	path = spring-boot-mongodb
 	url = https://github.com/springframeworkguru/spring-boot-mongodb.git
+[submodule "spring5-mvc-rest"]
+	path = spring5-mvc-rest
+	url = https://github.com/springframeworkguru/spring5-mvc-rest.git
