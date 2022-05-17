@@ -68,7 +68,7 @@ jobs:
   build-and-test-rest:
     working_directory: ~/project/spring5-mvc-rest
     docker:
-      - image: cimg/openjdk:11.0
+      - image: circleci/openjdk:8-jdk
     environment:
       # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx3200m
@@ -97,10 +97,10 @@ jobs:
               key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # run tests!
-      - run: mvn integration-test jacoco:report
+      - run: mvn integration-test cobertura:cobertura
 
       - store_test_results:
-          path: target/jacoco-report
+          path: target/surefire-reports
 
       - run:
           name: Send to CodeCov
