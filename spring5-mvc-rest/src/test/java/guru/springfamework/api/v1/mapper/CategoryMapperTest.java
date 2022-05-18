@@ -14,20 +14,21 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 public class CategoryMapperTest {
 
-    public static final String NAME = "Test";
-    public static final Long ID = 1L;
     @Autowired
-    private CategoryMapper categoryMapper;
+    CategoryMapper categoryMapper;
 
     @Test
-    public void testCategoryToCategoryDTO() {
+    public void categoryToCategoryDTO() throws Exception {
+        //given
         Category category = new Category();
-        category.setId(ID);
-        category.setName(NAME);
+        category.setName("Joe");
+        category.setId(1L);
 
+        //when
         CategoryDTO categoryDTO = categoryMapper.categoryToCategoryDTO(category);
 
-        assertEquals(ID, categoryDTO.getId());
-        assertEquals(NAME, categoryDTO.getName());
+        //then
+        assertEquals(Long.valueOf(1L), categoryDTO.getId());
+        assertEquals("Joe", categoryDTO.getName());
     }
 }
