@@ -3,6 +3,7 @@ package guru.springfamework.services;
 import guru.springfamework.api.v1.mapper.CustomerMapper;
 import guru.springfamework.api.v1.model.CustomerDTO;
 import guru.springfamework.controllers.CustomerController;
+import guru.springfamework.domain.Customer;
 import guru.springfamework.repositories.CustomerRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -38,5 +39,15 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO getCustomerById(Long id) {
         // Get customer from repository by id, also check for isPresent
         return customerMapper.customerToCustomerDTO(customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found")));
+    }
+
+    @Override
+    public CustomerDTO createNewCustomer(CustomerDTO customerDTO) {
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerDTO returnData = customerMapper.customerToCustomerDTO(savedCustomer);
+        returnData.setCustomerUrl("/api/v1/customers/" + savedCustomer.getId());
+
+        return returnData;
     }
 }
