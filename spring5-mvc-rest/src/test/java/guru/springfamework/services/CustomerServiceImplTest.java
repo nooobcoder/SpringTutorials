@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CustomerServiceImplTest {
 
@@ -114,22 +114,13 @@ public class CustomerServiceImplTest {
         assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
     }
 
-    // Test patchCustomer with DataJPATest
     @Test
-    public void patchCustomer() throws Exception {
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setFirstName("Jim");
+    public void deleteCustomerById() throws Exception {
 
-        Customer savedCustomer = new Customer();
-        savedCustomer.setFirstName(customerDTO.getFirstName());
-        savedCustomer.setLastName(customerDTO.getLastName());
-        savedCustomer.setId(1L);
+        Long id = 1L;
 
-        when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
+        customerService.deleteCustomerById(id);
 
-        CustomerDTO savedDto = customerService.patchCustomer(1L, customerDTO);
-
-        assertEquals(customerDTO.getFirstName(), savedDto.getFirstName());
-        assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
+        verify(customerRepository, times(1)).deleteById(anyLong());
     }
 }

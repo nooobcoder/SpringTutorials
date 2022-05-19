@@ -33,23 +33,24 @@ public class CategoryControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+    public static final String NAME = "Jim";
 
 
     @Test
     public void getAllCategories() throws Exception {
-        CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setId(1L);
-        categoryDTO.setName("Jim");
+        CategoryDTO category1 = new CategoryDTO();
+        category1.setId(1L);
+        category1.setName(NAME);
 
-        CategoryDTO categoryDTO1 = new CategoryDTO();
-        categoryDTO1.setId(2L);
-        categoryDTO1.setName("Bob");
+        CategoryDTO category2 = new CategoryDTO();
+        category2.setId(2L);
+        category2.setName("Bob");
 
-        List<CategoryDTO> categoryDTOS = Arrays.asList(categoryDTO, categoryDTO1);
+        List<CategoryDTO> categories = Arrays.asList(category1, category2);
 
-        when(categoryService.getAllCategories()).thenReturn(categoryDTOS);
+        when(categoryService.getAllCategories()).thenReturn(categories);
 
-        mockMvc.perform(get("/api/v1/categories")
+        mockMvc.perform(get("/api/v1/categories/")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories", hasSize(2)));
