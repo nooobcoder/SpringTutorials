@@ -6,38 +6,30 @@ import guru.springfamework.domain.Vendor;
 import guru.springfamework.repositories.CategoryRepository;
 import guru.springfamework.repositories.CustomerRepository;
 import guru.springfamework.repositories.VendorRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@Component
-@AllArgsConstructor
-public class Bootstrap implements CommandLineRunner {
+import static org.junit.Assert.assertEquals;
 
-    private final CategoryRepository categoryRespository;
-    private final CustomerRepository customerRepository;
-    private final VendorRepository vendorRepository;
+@RunWith(SpringRunner.class)
+@DataJpaTest
+public class BootstrapTest {
 
-    @Override
-    public void run(String... args) throws Exception {
+    @Autowired
+    CategoryRepository categoryRespository;
 
-        loadCategories();
-        loadCustomers();
-        loadVendors();
-    }
+    @Autowired
+    CustomerRepository customerRepository;
 
-    private void loadVendors() {
-        Vendor vendor1 = new Vendor();
-        vendor1.setName("Vendor 1");
-        vendorRepository.save(vendor1);
+    @Autowired
+    VendorRepository vendorRepository;
 
-        Vendor vendor2 = new Vendor();
-        vendor2.setName("Vendor 2");
-        vendorRepository.save(vendor2);
-
-    }
-
-    private void loadCategories() {
+    @Test
+    public void testLoadCategories() {
+        //given
         Category fruits = new Category();
         fruits.setName("Fruits");
 
@@ -59,10 +51,15 @@ public class Bootstrap implements CommandLineRunner {
         categoryRespository.save(exotic);
         categoryRespository.save(nuts);
 
-        System.out.println("Categories Loaded: " + categoryRespository.count());
+        //when
+        long count = categoryRespository.count();
+
+        //then
+        assertEquals(5, count);
     }
 
-    private void loadCustomers() {
+    @Test
+    public void testLoadCustomers() {
         //given
         Customer customer1 = new Customer();
         customer1.setId(1L);
@@ -77,6 +74,28 @@ public class Bootstrap implements CommandLineRunner {
 
         customerRepository.save(customer2);
 
-        System.out.println("Customers Loaded: " + customerRepository.count());
+        //when
+        long count = customerRepository.count();
+
+        //then
+        assertEquals(2, count);
+    }
+
+    @Test
+    public void testLoadVendors() {
+        //given
+        Vendor vendor1 = new Vendor();
+        vendor1.setName("Vendor 1");
+        vendorRepository.save(vendor1);
+
+        Vendor vendor2 = new Vendor();
+        vendor2.setName("Vendor 2");
+        vendorRepository.save(vendor2);
+
+        //when
+        long count = vendorRepository.count();
+
+        //then
+        assertEquals(2, count);
     }
 }
