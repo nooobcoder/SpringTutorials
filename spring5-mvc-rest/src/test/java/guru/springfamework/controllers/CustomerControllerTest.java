@@ -27,6 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 public class CustomerControllerTest {
+
+
     @Mock
     CustomerService customerService;
 
@@ -39,7 +41,9 @@ public class CustomerControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test
@@ -82,7 +86,6 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.firstName", equalTo("Michale")));
     }
 
-
     @Test
     public void createNewCustomer() throws Exception {
         //given
@@ -112,9 +115,13 @@ public class CustomerControllerTest {
         CustomerDTO customer = new CustomerDTO();
         customer.setFirstName("Fred");
         customer.setLastName("Flintstone");
-        customer.setCustomerUrl(CustomerController.BASE_URL + "/1");
 
-        when(customerService.saveCustomerByDTO(anyLong(), any(CustomerDTO.class))).thenReturn(customer);
+        CustomerDTO returnDTO = new CustomerDTO();
+        returnDTO.setFirstName(customer.getFirstName());
+        returnDTO.setLastName(customer.getLastName());
+        returnDTO.setCustomerUrl(CustomerController.BASE_URL + "/1");
+
+        when(customerService.saveCustomerByDTO(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
 
         //when/then
         mockMvc.perform(put(CustomerController.BASE_URL + "/1")
@@ -122,18 +129,24 @@ public class CustomerControllerTest {
                         .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo("Fred")))
+                .andExpect(jsonPath("$.lastName", equalTo("Flintstone")))
                 .andExpect(jsonPath("$.customer_url", equalTo(CustomerController.BASE_URL + "/1")));
     }
 
+    // Test Patch customer
     @Test
-    public void testPatchCustomer() throws Exception {
+    public void testPatchCustomer() throws Exception, ResourceNotFoundException {
         //given
         CustomerDTO customer = new CustomerDTO();
         customer.setFirstName("Fred");
         customer.setLastName("Flintstone");
-        customer.setCustomerUrl(CustomerController.BASE_URL + "/1");
 
-        when(customerService.saveCustomerByDTO(anyLong(), any(CustomerDTO.class))).thenReturn(customer);
+        CustomerDTO returnDTO = new CustomerDTO();
+        returnDTO.setFirstName(customer.getFirstName());
+        returnDTO.setLastName(customer.getLastName());
+        returnDTO.setCustomerUrl(CustomerController.BASE_URL + "/1");
+
+        when(customerService.patchCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
 
         //when/then
         mockMvc.perform(patch(CustomerController.BASE_URL + "/1")
@@ -141,6 +154,7 @@ public class CustomerControllerTest {
                         .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo("Fred")))
+                .andExpect(jsonPath("$.lastName", equalTo("Flintstone")))
                 .andExpect(jsonPath("$.customer_url", equalTo(CustomerController.BASE_URL + "/1")));
     }
 
@@ -152,5 +166,15 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk());
 
         verify(customerService).deleteCustomerById(anyLong());
+    }
+
+    @Test
+    public void testNotFoundException() throws Exception, ResourceNotFoundException {
+
+        when(customerService.getCustomerById(anyLong())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get(CustomerController.BASE_URL + "/222")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

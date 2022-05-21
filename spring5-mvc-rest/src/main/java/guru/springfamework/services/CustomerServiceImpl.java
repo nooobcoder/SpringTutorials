@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,8 +37,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO getCustomerById(Long id) throws ResourceNotFoundException {
-        // Get customer from repository by id, also check for isPresent
-        return customerMapper.customerToCustomerDTO(customerRepository.findById(id).orElseThrow(ResourceNotFoundException::new));
+        Optional<Customer> customer = customerRepository.findById(id);
+        return customer.map(customerMapper::customerToCustomerDTO).orElse(null);
     }
 
     @Override
@@ -62,14 +63,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void patchCustomer(Long id, CustomerDTO customerDTO) throws ResourceNotFoundException {
-        Customer customer = customerRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+    public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) throws ResourceNotFoundException {
+        return customerRepository.findById(id).map(customer -> {
 
-        // Patch customer
-        customer.setFirstName(customerDTO.getFirstName());
-        customer.setLastName(customerDTO.getLastName());
+            if (customerDTO.getFirstName() != null) {
+                customer.setFirstName(customerDTO.getFirstName());
+            }
 
-        saveAndReturnDTO(customer);
+            if (customerDTO.getLastName() != null) {
+                customer.setLastName(customerDTO.getLastName());
+            }
+
+            CustomerDTO returnDto = customerMapper.customerToCustomerDTO(customerRepository.save(customer));
+
+            returnDto.setCustomerUrl(getCustomerUrl(id));
+
+            return returnDto;
+
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override

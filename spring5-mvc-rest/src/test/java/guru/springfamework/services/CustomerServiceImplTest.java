@@ -62,13 +62,13 @@ public class CustomerServiceImplTest {
 
         //given
         Customer customer = new Customer();
-        customer.setId(1l);
+        customer.setId(1L);
         customer.setFirstName("Michale");
         customer.setLastName("Weston");
 
         when(customerRepository
                 .findById(anyLong()))
-                .thenReturn(java.util.Optional.ofNullable(customer));
+                .thenReturn(java.util.Optional.of(customer));
 
         //when
         CustomerDTO customerDTO = customerService.getCustomerById(1L);

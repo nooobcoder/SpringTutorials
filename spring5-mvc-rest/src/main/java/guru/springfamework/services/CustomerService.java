@@ -13,7 +13,7 @@ public interface CustomerService {
 
     CustomerDTO saveCustomerByDTO(Long id, CustomerDTO customerDTO);
 
-    void patchCustomer(Long id, CustomerDTO customerDTO) throws ResourceNotFoundException;
+    CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) throws ResourceNotFoundException;
 
     void deleteCustomerById(Long id);
 }
