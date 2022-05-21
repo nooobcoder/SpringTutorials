@@ -64,23 +64,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) throws ResourceNotFoundException {
-        return customerRepository.findById(id).map(customer -> {
+        Optional<Customer> customerOptional = customerRepository.findById(id);
 
-            if (customerDTO.getFirstName() != null) {
-                customer.setFirstName(customerDTO.getFirstName());
-            }
+        if (!customerOptional.isPresent()) {
+            throw new ResourceNotFoundException("Customer not found for id " + id);
+        }
 
-            if (customerDTO.getLastName() != null) {
-                customer.setLastName(customerDTO.getLastName());
-            }
+        Customer customer = customerOptional.get();
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
 
-            CustomerDTO returnDto = customerMapper.customerToCustomerDTO(customerRepository.save(customer));
-
-            returnDto.setCustomerUrl(getCustomerUrl(id));
-
-            return returnDto;
-
-        }).orElseThrow(ResourceNotFoundException::new);
+        return saveAndReturnDTO(customer);
     }
 
     @Override
