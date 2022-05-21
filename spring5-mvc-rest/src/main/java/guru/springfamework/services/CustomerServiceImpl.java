@@ -35,9 +35,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO getCustomerById(Long id) {
+    public CustomerDTO getCustomerById(Long id) throws ResourceNotFoundException {
         // Get customer from repository by id, also check for isPresent
-        return customerMapper.customerToCustomerDTO(customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found")));
+        return customerMapper.customerToCustomerDTO(customerRepository.findById(id).orElseThrow(ResourceNotFoundException::new));
     }
 
     @Override
@@ -62,17 +62,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
-        return customerRepository.findById(id).map(customer -> {
-            if (customerDTO.getFirstName() != null) {
-                customer.setFirstName(customerDTO.getFirstName());
-            }
-            if (customerDTO.getLastName() != null) {
-                customer.setLastName(customerDTO.getLastName());
-            }
+    public void patchCustomer(Long id, CustomerDTO customerDTO) throws ResourceNotFoundException {
+        Customer customer = customerRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
 
-            return customerMapper.customerToCustomerDTO(customerRepository.save(customer));
-        }).orElseThrow(RuntimeException::new); // Implement better exception handling using an advice, maybe.
+        // Patch customer
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
+
+        saveAndReturnDTO(customer);
     }
 
     @Override

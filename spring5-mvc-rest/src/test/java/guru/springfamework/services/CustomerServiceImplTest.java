@@ -58,7 +58,7 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void getCustomerById() throws Exception {
+    public void getCustomerById() throws ResourceNotFoundException {
 
         //given
         Customer customer = new Customer();

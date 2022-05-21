@@ -2,8 +2,10 @@ package guru.springfamework.controllers;
 
 import guru.springfamework.api.v1.model.CategoryDTO;
 import guru.springfamework.services.CategoryService;
+import guru.springfamework.services.ResourceNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,6 +35,9 @@ public class CategoryControllerTest {
     MockMvc mockMvc;
     public static final String NAME = "Jim";
 
+    @InjectMocks
+    CategoryController categoryController;
+
 
     @Test
     public void getAllCategories() throws Exception {
@@ -54,9 +59,19 @@ public class CategoryControllerTest {
                 .andExpect(jsonPath("$.categories", hasSize(2)));
     }
 
+    // Test getByNameNotFound
+    @Test
+    public void testGetByNameNotFound() throws Exception, ResourceNotFoundException {
+
+        when(categoryService.getCategoryByName(anyString())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get(CategoryController.BASE_URL + "/Foo")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 
     @Test
-    public void testGetByNameCategories() throws Exception {
+    public void testGetByNameCategories() throws Exception, ResourceNotFoundException {
         CategoryDTO category1 = new CategoryDTO();
         category1.setId(1L);
         category1.setName("Jim");

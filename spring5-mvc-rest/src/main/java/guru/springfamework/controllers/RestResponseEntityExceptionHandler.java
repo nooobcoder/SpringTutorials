@@ -15,6 +15,5 @@ public class RestResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleNotFoundException(Exception exception, WebRequest request) {
 
         return new ResponseEntity<Object>("Resource Not Found", new HttpHeaders(), HttpStatus.NOT_FOUND);
-
     }
 }

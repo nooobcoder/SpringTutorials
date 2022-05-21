@@ -3,6 +3,7 @@ package guru.springfamework.controllers;
 import guru.springfamework.api.v1.model.CustomerDTO;
 import guru.springfamework.api.v1.model.CustomerListDTO;
 import guru.springfamework.services.CustomerService;
+import guru.springfamework.services.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,8 +33,12 @@ public class CustomerController {
     }
 
     @GetMapping({"/{id}"})
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) {
-        return new ResponseEntity<CustomerDTO>(customerService.getCustomerById(id), HttpStatus.OK);
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) throws ResourceNotFoundException {
+        try {
+            return new ResponseEntity<CustomerDTO>(customerService.getCustomerById(id), HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Customer not found for id " + id);
+        }
     }
 
     @PostMapping

@@ -63,7 +63,7 @@ public class CategoryServiceImplTest {
     }
 
     @Test
-    public void getCategoryByName() {
+    public void getCategoryByName() throws ResourceNotFoundException {
 
         //given
         Category category = new Category();

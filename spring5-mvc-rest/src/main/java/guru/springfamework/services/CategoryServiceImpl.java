@@ -24,7 +24,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO getCategoryByName(String name) {
-        return categoryMapper.categoryToCategoryDTO(categoryRepository.findByName(name));
+    public CategoryDTO getCategoryByName(String name) throws ResourceNotFoundException {
+        // Throw exception if category not found with try catch
+        try {
+            return categoryMapper.categoryToCategoryDTO(categoryRepository.findByName(name));
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Category not found for name " + name);
+        }
     }
 }

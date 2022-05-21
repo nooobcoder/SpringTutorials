@@ -2,6 +2,7 @@ package guru.springfamework.controllers;
 
 import guru.springfamework.api.v1.model.CustomerDTO;
 import guru.springfamework.services.CustomerService;
+import guru.springfamework.services.ResourceNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -64,7 +65,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void testGetCustomerById() throws Exception {
+    public void testGetCustomerById() throws Exception, ResourceNotFoundException {
 
         //given
         CustomerDTO customer1 = new CustomerDTO();
@@ -80,6 +81,7 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo("Michale")));
     }
+
 
     @Test
     public void createNewCustomer() throws Exception {
