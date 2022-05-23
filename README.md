@@ -6,8 +6,8 @@
 
 | Project        | Chart Type           | Chart  |
 | ------------- |:-------------:| -----:|
-| [spring5-mvc-rest](./spring5-mvc-rest)      | Sunburst | ![sunburst]([https://codecov.io/gh/nooobcoder/SpringTutorials/commit/b581ddacedd2e4f28c9ab4ab72b56f0aacadbbbb/graphs/sunburst.svg](https://codecov.io/gh/nooobcoder/SpringTutorials/commit/b581ddacedd2e4f28c9ab4ab72b56f0aacadbbbb/graphs/sunburst.svg)) |
-|     | Grid      | ![icicle]([https://codecov.io/gh/nooobcoder/SpringTutorials/commit/b581ddacedd2e4f28c9ab4ab72b56f0aacadbbbb/graphs/icicle.svg](https://codecov.io/gh/nooobcoder/SpringTutorials/commit/b581ddacedd2e4f28c9ab4ab72b56f0aacadbbbb/graphs/icicle.svg)) |
+| [spring5-mvc-rest](./spring5-mvc-rest)      | Sunburst | ![sunburst](https://codecov.io/gh/nooobcoder/SpringTutorials/commit/b581ddacedd2e4f28c9ab4ab72b56f0aacadbbbb/graphs/sunburst.svg) |
+|     | Grid      | ![icicle](https://codecov.io/gh/nooobcoder/SpringTutorials/commit/b581ddacedd2e4f28c9ab4ab72b56f0aacadbbbb/graphs/icicle.svg) |
 | | Grid     |  ![Grid](https://codecov.io/gh/nooobcoder/SpringTutorials/commit/b581ddacedd2e4f28c9ab4ab72b56f0aacadbbbb/graphs/tree.svg) |
 
 ---
