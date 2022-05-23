@@ -29,7 +29,7 @@ jobs:
           name: Test
           command: mvn test
   build-and-test-mysql-recipefinder:
-    working_directory: ~/project/spring5-mysql-recipe-app
+    working_directory: ~/project/spring-mysql-recipe-app
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # Be sure to update the Docker image tag below to openjdk version of your application.
