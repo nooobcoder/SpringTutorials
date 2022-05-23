@@ -159,3 +159,6 @@ workflows:
   testrestmvc:
     jobs:
       - build-and-test-rest
+  mysql-recipefinder:
+    jobs:
+      - build-and-test-mysql-recipefinder
