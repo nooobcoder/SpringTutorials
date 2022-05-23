@@ -39,25 +39,30 @@ jobs:
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
-      # Checkout the code as the first step.
       - checkout:
           path: ~/project
-          
+
       # Download and cache dependencies
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+
+      # Use mvn clean and package as the standard maven build phase
+      - run:
+          name: Install
+          command: mvn install -DskipTests
 
       - run: mvn dependency:go-offline
 
       - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+              paths:
+              - ~/.m2
+              key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      # run tests! and gen code coverage
+      # run tests!
       - run: mvn integration-test cobertura:cobertura
 
       - store_test_results:
