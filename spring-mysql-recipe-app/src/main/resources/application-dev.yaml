@@ -1,0 +1,23 @@
+server:
+  port: 280
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.0.105:3306/sfg_dev?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: mysql
+    password: mysql
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    hbm2ddl:
+      delimiter: ';'
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    database: mysql
+#    properties:
+#      javax:
+#        persistence:
+#          schema-generation:
+#            create-source: metadata
+#            scripts:
+#              action: create
+#              create-target: guru_database_create.sql
