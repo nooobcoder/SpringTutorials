@@ -21,3 +21,5 @@
 | [Spring MVC REST App](./recipefinder) |  [![CircleCI](https://circleci.com/gh/nooobcoder/SpringTutorials/tree/master.svg?style=svg)](https://circleci.com/gh/nooobcoder/SpringTutorials/tree/master) |
 
 ---
+
+![Repository Map](./diagram.svg)
