@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-=======
-# Copyright (c) 2021 Tailscale Inc & AUTHORS All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 FROM gitpod/workspace-full:latest
 
->>>>>>> 07502410d80c3505cc83f50f2b387aee7a34f942
 USER root
 
 RUN curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add - \
