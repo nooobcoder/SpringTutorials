@@ -3,7 +3,6 @@ package guru.springframework.services;
 import guru.springframework.commands.UnitOfMeasureCommand;
 import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.domain.UnitOfMeasure;
-import guru.springframework.repositories.UnitOfMeasureRepository;
 import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class UnitOfMeasureServiceImplTest {
+
     UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand = new UnitOfMeasureToUnitOfMeasureCommand();
     UnitOfMeasureService service;
 
@@ -53,4 +53,5 @@ public class UnitOfMeasureServiceImplTest {
         assertEquals(2, commands.size());
         verify(unitOfMeasureReactiveRepository, times(1)).findAll();
     }
+
 }

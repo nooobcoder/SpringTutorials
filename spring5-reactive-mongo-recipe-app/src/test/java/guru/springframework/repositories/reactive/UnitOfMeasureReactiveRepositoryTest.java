@@ -34,5 +34,18 @@ public class UnitOfMeasureReactiveRepositoryTest {
         Long count = unitOfMeasureReactiveRepository.count().block();
 
         assertEquals(Long.valueOf(1L), count);
+
+    }
+
+    @Test
+    public void testFindByDescription() throws Exception {
+        UnitOfMeasure uom = new UnitOfMeasure();
+        uom.setDescription(EACH);
+
+        unitOfMeasureReactiveRepository.save(uom).block();
+
+        UnitOfMeasure fetchedUOM = unitOfMeasureReactiveRepository.findByDescription(EACH).block();
+
+        assertEquals(EACH, fetchedUOM.getDescription());
     }
 }
