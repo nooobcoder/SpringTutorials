@@ -17,7 +17,6 @@ public class Ingredient {
     private String id = UUID.randomUUID().toString();
     private String description;
     private BigDecimal amount;
-
     private UnitOfMeasure uom;
 
     public Ingredient() {

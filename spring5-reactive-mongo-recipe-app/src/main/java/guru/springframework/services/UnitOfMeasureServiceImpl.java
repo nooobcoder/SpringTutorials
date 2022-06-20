@@ -17,20 +17,22 @@ import java.util.stream.StreamSupport;
 @Service
 public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 
-    private final UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
+    private final UnitOfMeasureReactiveRepository unitOfMeasureRepository;
     private final UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand;
 
-    public UnitOfMeasureServiceImpl(UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository, UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand) {
-        this.unitOfMeasureReactiveRepository = unitOfMeasureReactiveRepository;
+    public UnitOfMeasureServiceImpl(UnitOfMeasureReactiveRepository unitOfMeasureRepository, UnitOfMeasureToUnitOfMeasureCommand unitOfMeasureToUnitOfMeasureCommand) {
+        this.unitOfMeasureRepository = unitOfMeasureRepository;
         this.unitOfMeasureToUnitOfMeasureCommand = unitOfMeasureToUnitOfMeasureCommand;
     }
 
     @Override
     public Flux<UnitOfMeasureCommand> listAllUoms() {
-        return unitOfMeasureReactiveRepository.findAll()
+
+        return unitOfMeasureRepository
+                .findAll()
                 .map(unitOfMeasureToUnitOfMeasureCommand::convert);
 
-//      return StreamSupport.stream(unitOfMeasureRepository.findAll()
+//        return StreamSupport.stream(unitOfMeasureRepository.findAll()
 //                .spliterator(), false)
 //                .map(unitOfMeasureToUnitOfMeasureCommand::convert)
 //                .collect(Collectors.toSet());
