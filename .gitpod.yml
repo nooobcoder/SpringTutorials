@@ -4,7 +4,7 @@ image:
 ports:
   - port: 8080
     onOpen: notify
-  - port: 8787
+  - port: 8887
     onOpen: notify
 tasks:
   - name: IntelliJProjector
@@ -12,7 +12,7 @@ tasks:
       sudo docker pull registry.jetbrains.team/p/prj/containers/projector-idea-u
     command: |
       sudo mkdir -p .jetbrains; sudo touch .jetbrains/.gitkeep; sudo chown -R 1000:1000 .jetbrains
-      sudo docker run --rm --network=host--name projector-idea -v $(pwd):/home/projector-user -it registry.jetbrains.team/p/prj/containers/projector-idea-u
+      sudo docker run --rm --network=host --name projector-idea -v $(pwd)/.jetbrains:/home/projector-user -it registry.jetbrains.team/p/prj/containers/projector-idea-u
   - name: tailscaled
     command: |
       if [ -n "${TS_STATE_TAILSCALE_EXAMPLE}" ]; then
