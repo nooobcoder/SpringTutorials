@@ -21,3 +21,4 @@ RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTO
 RUN sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="powerlevel10k\/powerlevel10k"/' $HOME/.zshrc
 RUN wget https://gist.githubusercontent.com/nooobcoder/d8f728b999329c4edf563cd378d0398c/raw/.p10k.zsh -O $HOME/.p10k.zsh
 RUN echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> $HOME/.zshrc
+RUN bash -c " . /home/gitpod/.sdkman/bin/sdkman-init.sh   && sdk install java  17.0.3.6.1-amzn"
