@@ -35,7 +35,6 @@ vscode:
   extensions:
     - aaron-bond.better-comments
     - ahmadawais.shades-of-purple
-    - gabrielbb.vscode-lombok
     - avraammavridis.vsc-react-documentation
     - bierner.color-info
     - bradlc.vscode-tailwindcss
@@ -51,7 +50,7 @@ vscode:
     - eamodio.gitlens
     - EditorConfig.EditorConfig
     - esbenp.prettier-vscode
-    - GitHub.copilot-insiders
+    - GitHub.copilot-nightly
     - GitHub.github-vscode-theme
     - GitHub.vscode-pull-request-github
     - golang.go
@@ -83,7 +82,6 @@ vscode:
     - usernamehw.errorlens
     - vlanguage.vscode-vlang
     - vscjava.vscode-java-debug
-    - pivotal.vscode-spring-boot
     - vscjava.vscode-java-dependency
     - vscjava.vscode-java-pack
     - vscjava.vscode-java-test
