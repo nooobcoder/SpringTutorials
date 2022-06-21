@@ -6,5 +6,9 @@ http DELETE :4848/api/group/6
 ```
 
 ```
+./mvnw spring-boot:run
+```
+
+```
 mvn jacoco:prepare-agent test install jacoco:report
 ```
