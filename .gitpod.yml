@@ -1,5 +1,9 @@
 image:
   file: .gitpod.Dockerfile
+# exposed ports
+ports:
+  - port: 8080
+    onOpen: notify
 tasks:
   - name: IntelliJProjector
     init: |
@@ -44,7 +48,7 @@ vscode:
     - eamodio.gitlens
     - EditorConfig.EditorConfig
     - esbenp.prettier-vscode
-    - GitHub.copilot
+    - GitHub.copilot-insiders
     - GitHub.github-vscode-theme
     - GitHub.vscode-pull-request-github
     - golang.go
@@ -76,6 +80,7 @@ vscode:
     - usernamehw.errorlens
     - vlanguage.vscode-vlang
     - vscjava.vscode-java-debug
+    - pivotal.vscode-spring-boot
     - vscjava.vscode-java-dependency
     - vscjava.vscode-java-pack
     - vscjava.vscode-java-test
@@ -83,3 +88,9 @@ vscode:
     - vscjava.vscode-spring-initializr
     - wix.vscode-import-cost
     - zaaack.markdown-editor
+jetbrains:
+  intellij:
+    plugins:
+      - com.haulmont.jpab
+    prebuilds:
+      version: both

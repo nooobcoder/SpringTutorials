@@ -1,0 +1,48 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql_petclinic
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=petclinic
+      - MYSQL_DATABASE=petclinic
+    volumes:
+      - "./docker-data/mysql/conf.d:/etc/mysql/conf.d:ro"
+      - "./docker-data/mysql/data:/var/lib/mysql:rw"
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_petclinic
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=adminadmin
+      - MONGO_INITDB_DATABASE=petclinic
+      - MONGO_INITDB_USER=petclinic
+      - MONGO_INITDB_PASSWORD=petclinic
+    networks:
+      - MONGO
+    volumes:
+      - "./docker-data/mongodb/data:/data/db:rw"
+      - "./docker-data/mongodb/conf.d:/etc/mongodb/conf.d:ro"
+      - "./docker-data/mongodb/logs:/var/log/mongodb:rw"
+      - "./docker-data/mongodb/configdb:/data/configdb"
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: adminadmin
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: "27017"
+    ports:
+      - "0.0.0.0:8081:8081"
+    networks:
+      - MONGO
+    depends_on:
+      - mongo
+networks:
+  MONGO:
+    name: MONGO
