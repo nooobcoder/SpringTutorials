@@ -35,6 +35,7 @@ vscode:
   extensions:
     - aaron-bond.better-comments
     - ahmadawais.shades-of-purple
+    - gabrielbb.vscode-lombok
     - avraammavridis.vsc-react-documentation
     - bierner.color-info
     - bradlc.vscode-tailwindcss
