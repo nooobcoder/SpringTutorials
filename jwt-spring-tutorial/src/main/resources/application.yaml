@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://100.101.46.6:5432/jwt_spring_tutorial
+    username: ankurpaul
+    password: adminadmin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+jwt:
+  signing_key: jSLbWdJwWuQ9tw5NKI25KpSSu9R+pPaGMNKAlRYn3xNm+04UHfYfM3XyLfSoNyHMJawW+yceOo7DBxb75LQKl0Sp+jxtiBUi9XRFNMsNrlyg/QmEuISq1zQjn0B5MSWB8zf1cntjO5C8qxGYQw5WSDvJh+BfWrhWheZtUI1TSHwGGTD4aiLAXUpqxvyN4d8PuVAUGgfVT0/kXnA6GXQv9VpjRM7m9hJpeKPYWR4nL/TTem4WBm50hpjyFKB3CtBaB5q16ARHOktVeHvLhRIXpeP+dyUhPGPH2AK0dlKz00TVeCN6OA1Cjx4ipHiq1V1BltiJrT2ER0x6CH8kNDss/8qxgThbHpNrHWBENlY11G+rSYNIlGUkocOEqb25RPqpTsx5o/JUoJhJhqAOzN7iJkazlwdHHQFhSopg30+Sq94iiJtl6JXc+xH5MKnUyRYwE5oiVi/JsFbNou5YLsoQpt6eM9I8QSVlPlP5R3xbagWCVtYlXdNQFtpxIF7K3+Q2OgOs7M/6mAX3Ki9A9KrWHa5mMp2uAUe6etg0g7jNuTU4FjljRj4x0hIO4VOzPqWHMOPDSBglZjz77svgosff2sOolshTXKnHxqM4je11kZMoAej9qX1r7Ugj9r3p/CXi7BIkLE/gnBX7KGvOCmOUCi5o8l3ngnpKOhWiKaU0S0GejmjOZGiSfCTqC93lBjcB
